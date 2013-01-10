@@ -1,9 +1,14 @@
+#/user/bin/env python
 '''
 Created on 2013-1-8
 
 @author: stefanie
 '''
+#import section
 
+#global variable
+
+#class definition
 class ArrayAlgorithms(object):
     '''
     basic algorithms operating a array or several arrays.
@@ -71,6 +76,7 @@ class ArrayAlgorithms(object):
         print "Closest sum value is: ", closestSum
         print "Arrays are: ", array1, array2
         
+#function section
 def test_split_balance_array():
     arrayAlgo = ArrayAlgorithms();
     print "Array is: ", arrayAlgo.array
@@ -80,8 +86,9 @@ def test_split_balance_array():
     print "Array is: ", arrayAlgo.array
     arrayAlgo.split_balance_arrays() 
 
-#test part
-test_split_balance_array()
+#main function
+if __name__ == '__main__':
+    test_split_balance_array()
 
            
                 
