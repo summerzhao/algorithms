@@ -76,6 +76,56 @@ class ArrayAlgorithms(object):
         print "Closest sum value is: ", closestSum
         print "Arrays are: ", array1, array2
         
+    def subset_within_K(self, K):
+        '''
+        '''
+        subsets = []
+        
+        for num in self.array:
+            subsets = self._subset_within_K(K, num, subsets)
+            
+        for item in subsets:
+            print item['set']
+        
+    def _subset_within_K(self, K, num, subset_previous):
+        '''
+        '''
+        subset = subset_previous[0:]
+        
+        isAdded = False
+        for item in subset_previous:
+            isAdded = isAdded or self._process_one_node(item, num, K, subset, True)
+            #print "num", num, "item", item['set'], isAdded
+     
+        if (not isAdded) and num <= K:
+            item = {}
+            item['set']= [num]
+            item['sum']= num
+            item['child'] = None
+            subset.append(item) 
+            
+        return subset
+    
+    def _process_one_node(self, item, num, K, subset, isTop):
+        newSum = item['sum'] + num
+        if newSum <= K:
+            newList = item['set'][0:]
+            newList.append(num)
+            newItem = {}
+            newItem['set']= newList
+            newItem['sum']= newSum
+            newItem['child'] = item
+            subset.append(newItem) 
+            if(isTop):           
+                subset.remove(item)
+            return True
+        else:
+            if(item['child']):
+                return self._process_one_node(item['child'], num, K, subset, False)
+            else:
+                return False
+            
+        
 #function section
 def test_split_balance_array():
     arrayAlgo = ArrayAlgorithms();
@@ -85,10 +135,15 @@ def test_split_balance_array():
     arrayAlgo.setArray([1,2,3,4,1,1,1])
     print "Array is: ", arrayAlgo.array
     arrayAlgo.split_balance_arrays() 
+    
+def test_subset_within_K():
+    arrayAlgo = ArrayAlgorithms();
+    arrayAlgo.subset_within_K(10);
 
 #main function
 if __name__ == '__main__':
-    test_split_balance_array()
+    #test_split_balance_array()
+    test_subset_within_K()
 
            
                 
