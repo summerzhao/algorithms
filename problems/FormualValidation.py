@@ -14,22 +14,24 @@
 def isVariable(char, index, formual, variableSet, operatorSet):
 	'''
 		determine a char or charset is a variable
-		return the next index of the scan, since if occur a subset '(..)' it should continue 
+		return the validation boolean, and the next index of the scan, since if occur a subset '(..)' it should continue 
 			on the next char from ')'
 	'''
 	if char in variableSet:
-		return index
+		return True, index
 	elif char == '(':
 		#find the match ')' which is a last ')' in the string
 		rindex = formual.rfind(')')
 		if rindex < 0:
-			return False
+			return False, -1
 		else:
 			result = checkFormual(formual[index:rindex], variableSet, operatorSet)
 			if result:
-				return rindex + 1;
+				return True, rindex + 1;
+			else:
+				return False, -1
 	else:
-		return False
+		return False, -1
 		
 def isOperator(char):
 	'''
@@ -53,9 +55,9 @@ def checkFormual(formual, variableSet, operatorSet):
 		index += 1	
 		#if the first variable and previous char is not a char, this char should be a variable
 		if index == 0 or not previousIsChar:
-			result = isVariable(char, index, formual, variableSet, operatorSet)
+			result, nextIndex = isVariable(char, index, formual, variableSet, operatorSet)
 			if(result):
-				index = result;
+				index = nextIndex;
 				previousIsChar = True
 				continue
 			else:
