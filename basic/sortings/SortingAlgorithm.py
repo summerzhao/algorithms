@@ -29,6 +29,27 @@ class SortingAlgorithm(object):
                     array[i], array[j] = array[j], array[i]
         return array;
     
+    def selection_sorting(self):
+        array = copy.copy(self.array)
+        for i in range(0, len(array)):
+            min_index = i
+            for j in range(i, len(array)):
+                if(array[j] < array[min_index]):
+                    min_index = j
+            if min_index != i:
+                array[i], array[min_index] = array[min_index], array[i]
+        return array
+    
+    def insertion_sorting(self):
+        array = copy.copy(self.array)
+        for i in range(1, len(array)):
+            for j in (range(1, i + 1)[::-1]):
+                if(array[j] < array[j - 1]):
+                    array[j], array[j - 1] = array[j - 1], array[j]
+                else:
+                    break
+        return array
+    
     def quick_sorting(self):
         array = copy.copy(self.array)
     
@@ -78,4 +99,7 @@ if __name__ == '__main__':
     print "Top Bubble Result: ", sorting.top_bubble()
     print "Button Bubble Result: ", sorting.bottom_bubble()
     print "Merge Sorting Result: ", sorting.division_merge()
+    print "Selection Sorting Result: ", sorting.selection_sorting()
+    print "Insertion Sorting Result: ", sorting.insertion_sorting()
+    
     
