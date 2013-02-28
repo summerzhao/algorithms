@@ -50,6 +50,20 @@ class SortingAlgorithm(object):
                     break
         return array
     
+    def shell_sorting(self):
+        array = copy.copy(self.array)
+        h = 1
+        while h < len(array)/3:
+            h=3*h+1;
+            
+        while h >= 1:
+            for i in range(h, len(array)):
+                for j in range(h, i+1)[::-h]:
+                    if(array[j] < array[j-h]):
+                        array[j], array[j-h] = array[j-h], array[j]
+            h = h/3;
+        return array;
+    
     def quick_sorting(self):
         array = copy.copy(self.array)
     
@@ -101,5 +115,6 @@ if __name__ == '__main__':
     print "Merge Sorting Result: ", sorting.division_merge()
     print "Selection Sorting Result: ", sorting.selection_sorting()
     print "Insertion Sorting Result: ", sorting.insertion_sorting()
+    print "Shell Sorting Result: ", sorting.shell_sorting()
     
     
