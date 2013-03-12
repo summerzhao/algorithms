@@ -62,6 +62,7 @@ class SortingAlgorithm(object):
                     if(array[j] < array[j-h]):
                         array[j], array[j-h] = array[j-h], array[j]
             h = h/3;
+            print array
         return array;
     
     def quick_sorting(self):
@@ -105,7 +106,8 @@ class SortingAlgorithm(object):
 #main function
 if __name__ == '__main__':
     #test_split_balance_array()
-    array = [2,34,4,23,67,1,7,19]
+    #array = [2,34,4,23,67,1,7,19]
+    array = [79, 82, 23, 50, 17, 53, 37, 89, 60, 14]
     
     print array    
     sorting = SortingAlgorithm(array)
