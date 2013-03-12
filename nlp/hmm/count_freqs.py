@@ -37,24 +37,7 @@ def simple_conll_corpus_iterator(corpus_file):
         else: # Empty line
             yield (None, None)                        
         l = corpus_file.readline()
-        
-
-def replace_rare_word(input, refined_corpusfile):
-	counts = calculate_counts(input)
-	corpusfile = file(input,"r")
-	l = corpusfile.readline()
-	while l:
-                line = l.strip()
-                if line: # Nonempty line
-                        fields = line.split(" ")
-                        ne_tag = fields[-1]
-                        word = " ".join(fields[:-1])
-                        if counts[word] < 5:
-                                word = "_RARE_"
-                        refined_corpusfile.write("%s %s\n" % (word, ne_tag))
-                else: #Empty line
-                        refined_corpusfile.write('\n')
-                l = corpusfile.readline()
+    
 
 def sentence_iterator(corpus_iterator):
     """
@@ -104,7 +87,8 @@ class Hmm(object):
         assert n>=2, "Expecting n>=2."
         self.n = n
         self.emission_counts = defaultdict(int)
-	self.predict_emssiion_counts = defaultdict(float)
+        self.predict_emssiion_counts = defaultdict(float)
+        self.trigram_prob = defaultdict(float)
         self.ngram_counts = [defaultdict(int) for i in xrange(self.n)]
         self.all_states = set()
 
@@ -130,7 +114,7 @@ class Hmm(object):
             # Need to count a single n-1-gram of sentence start symbols per sentence
             if ngram[-2][0] is None: # this is the first n-gram in a sentence
                 self.ngram_counts[self.n - 2][tuple((self.n - 1) * ["*"])] += 1
-	
+
     def refine_predict_emissions(self):
         tag_counts = defaultdict(int)
         for ngram in self.ngram_counts[0]:
@@ -139,6 +123,16 @@ class Hmm(object):
         
         for word, ne_tag in self.emission_counts:
             self.predict_emssiion_counts[(word, ne_tag)] = self.emission_counts[(word, ne_tag)] / tag_counts[ne_tag]
+            
+    def calulate_trigram_proability(self):
+        
+        for gram_3 in self.ngram_counts[2]:
+                count_3 = self.ngram_counts[2][gram_3]
+                gram_2 = gram_3[:2]
+                count_2 = self.ngram_counts[1][gram_2]
+                prob = count_3 / count_2
+                self.trigram_prob[gram_3]= prob
+        
 		
     def write_counts(self, output, printngrams=[1,2,3]):
         """
@@ -156,6 +150,10 @@ class Hmm(object):
             for ngram in self.ngram_counts[n-1]:
                 ngramstr = " ".join(ngram)
                 output.write("%i %i-GRAM %s\n" %(self.ngram_counts[n-1][ngram], n, ngramstr))
+                
+        for ngram in self.trigram_prob:
+            ngramstr = " ".join(ngram)
+            output.write("%f PARAMETERS %s\n" %(self.trigram_prob[ngram], ngramstr))
 
     def read_counts(self, corpusfile):
 
@@ -178,6 +176,9 @@ class Hmm(object):
                 n = int(parts[1].replace("-GRAM",""))
                 ngram = tuple(parts[2:])
                 self.ngram_counts[n-1][ngram] = count
+            elif parts[1] == "PARAMETERS":
+                ngram = tuple(parts[2:])
+                self.trigram_prob[ngram] = count
                 
 
 
@@ -196,7 +197,7 @@ if __name__ == "__main__":
     try:
         input = file(sys.argv[1],"r")
     except IOError:
-        sys.stderr.write("ERROR: Cannot read inputfile %s.\n" % arg)
+        #sys.stderr.write("ERROR: Cannot read inputfile %s.\n" % arg)
         sys.exit(1)
     
     # Initialize a trigram counter
