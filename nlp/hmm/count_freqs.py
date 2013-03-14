@@ -205,6 +205,7 @@ if __name__ == "__main__":
     # Collect counts
     counter.train(input)
     counter.refine_predict_emissions()
+    counter.calulate_trigram_proability()
     # Write the counts
     counter.write_counts(sys.stdout)
 

@@ -13,16 +13,6 @@ def calculate_counts(input):
 		counts[word] += 1
 	return counts
 
-def calculate_counts_test(input):
-        counts = defaultdict(int)
-        l = input.readline()
-        while l:
-                line = l.strip()
-                if line:  # Nonempty line
-                    counts[line] += 1                
-                l = input.readline()
-        return counts
-
 def get_rare_class(word):
 	if re.match('.*\d+.*', word):
 		return "_NUMBER_"
@@ -49,7 +39,7 @@ def replace_rare_word(input, refined_corpusfile):
 				clazz = get_rare_class(word)
 #				print word, clazz
 				word = clazz
-			refined_corpusfile.write("%s %s %d\n" % (word, ne_tag, count))
+			refined_corpusfile.write("%s %s\n" % (word, ne_tag))
 		else:  # Empty line
 			refined_corpusfile.write('\n')
 		l = input.readline()
@@ -72,7 +62,6 @@ def is_rare_word(counter, word, tags):
 		if count > 0:
 			return False
 	return True
-                
 
 def calculate_proability(input, counter, counts, output):
 	tags = set()
@@ -123,7 +112,7 @@ def viterbi(counter, input, output):
 			k += 1
 			# print word
 			if is_rare_word(counter, word, tags):
-				word = "_RARE_"
+				word = get_rare_class(word)
 			for u in get_possible_tags(k - 1, tags, begin):
 				for v in get_possible_tags(k, tags, begin):
 					e_prob = counter.predict_emssiion_counts[(word, v)]
@@ -191,26 +180,18 @@ def testClazz():
 	print get_rare_class("HUSU7Z")
 	print get_rare_class("shuZ")
 
-if __name__ == "__main__":
-	# counter = Hmm(3)
+
+def prepare_train_data():
 	input = file(sys.argv[1],"r")
 	replace_rare_word(input, sys.stdout)
-	# counter.read_counts(input)
-	# counter.calulate_trigram_proability();
-	# counter.write_counts(sys.stdout)
 	
-	# test_file = file(sys.argv[2],"r")
-	# viterbi(counter, test_file, sys.stdout)
-	# test_counts = calculate_counts_test(test_file)
+def test_viterbi():
+	counter = Hmm(3)
+	input = file(sys.argv[1],"r")
+	counter.read_counts(input)
+	
+	test_file = file(sys.argv[2],"r")
+	viterbi(counter, test_file, sys.stdout)
 
-	# test_file.seek(0,0)
-
-	# calculate_proability(test_file, counter, test_counts, sys.stdout)
-     # calulate_trigram_proability(counter, sys.stdout)
-	
-	
-
-	
-                        
-	
-	
+if __name__ == "__main__":
+	test_viterbi()
