@@ -62,7 +62,7 @@ class SortingAlgorithm(object):
                     if(array[j] < array[j-h]):
                         array[j], array[j-h] = array[j-h], array[j]
             h = h/3;
-            print array
+            #print array
         return array;
     
     def quick_sorting(self):
@@ -102,6 +102,48 @@ class SortingAlgorithm(object):
         #print array, result
         array[begin:end + 1] = result
         #print array
+        
+    def quicksort(self):
+        array = copy.copy(self.array)
+        self.quick_sort(array,0,len(array)-1)
+        return array
+    
+    def quick_sort(self, array, low, high):
+        if low >= high:
+            return
+        mid = self.partition_2(array, low, high)
+        self.quick_sort(array, low, mid -1)
+        self.quick_sort(array, mid + 1, high)
+        
+    def partition(self, array, low, high):
+        i = low+1 
+        j = high
+        key = array[low]
+        while True:
+            while array[i] < key and i < high:
+                i += 1
+            while array[j] > key and j > low:
+                j -= 1
+            if i >= j:
+                break
+            array[i], array[j] = array[j], array[i]
+        array[low], array[j] = array[j], array[low]
+        return j
+    
+    def partition_2(self, array, low, high):
+        key = array[high]
+        j = low
+        i = low -1
+        while j < high:
+            if array[j] < key:
+                i += 1
+                array[i], array[j] = array[j], array[i]
+            j += 1
+        i += 1
+        array[high], array[i] = array[i], array[high]
+        return i
+        
+        
                        
 #main function
 if __name__ == '__main__':
@@ -118,5 +160,6 @@ if __name__ == '__main__':
     print "Selection Sorting Result: ", sorting.selection_sorting()
     print "Insertion Sorting Result: ", sorting.insertion_sorting()
     print "Shell Sorting Result: ", sorting.shell_sorting()
+    print "Quick Sorting Result: ", sorting.quicksort()
     
     
