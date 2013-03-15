@@ -143,6 +143,16 @@ class SortingAlgorithm(object):
         array[high], array[i] = array[i], array[high]
         return i
     
+    '''
+        Dijsktra QuickSort have optimize on the duplicate key, use two point
+        lt, gt and j
+        index < lt is smaller than K
+        lt < index < gt is same with K
+        index > gt is larger than K
+        
+        optimize in order to avoid duplicate key fall in one partition, 
+        effect the balance of the partition tree
+    '''
     def quicksort_dijsktra(self):
         array = copy.copy(self.array)
         self.quick_sort_dijsktra(array,0,len(array)-1)
