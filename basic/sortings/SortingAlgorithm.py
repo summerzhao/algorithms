@@ -120,7 +120,7 @@ class SortingAlgorithm(object):
         j = high
         key = array[low]
         while True:
-            while array[i] < key and i < high:
+            while array[i] <= key and i < high:
                 i += 1
             while array[j] > key and j > low:
                 j -= 1
@@ -135,20 +135,47 @@ class SortingAlgorithm(object):
         j = low
         i = low -1
         while j < high:
-            if array[j] < key:
+            if array[j] <= key:
                 i += 1
                 array[i], array[j] = array[j], array[i]
             j += 1
         i += 1
         array[high], array[i] = array[i], array[high]
         return i
+    
+    def quicksort_dijsktra(self):
+        array = copy.copy(self.array)
+        self.quick_sort_dijsktra(array,0,len(array)-1)
+        return array
+    
+    
+    def quick_sort_dijsktra(self, array, low, high):
+        if low >= high:
+            return
+        lt, gt = self.paration_dijkstra(array, low, high)
+        print array
+        print lt, gt
+        self.quick_sort_dijsktra(array, low, lt -1)
+        self.quick_sort_dijsktra(array, gt + 1, high)
         
-        
-                       
-#main function
-if __name__ == '__main__':
-    #test_split_balance_array()
-    #array = [2,34,4,23,67,1,7,19]
+    def paration_dijkstra(self, array, low, high):
+        lt = low
+        i = low+1
+        gt = high
+        key = array[low]
+        while i <= gt:
+            if array[i] < key:
+                array[lt], array[i] = array[i], array[lt]
+                lt += 1
+                i += 1
+            elif array[i] > key:
+                array[gt], array[i] = array[i], array[gt]
+                gt -= 1
+            else:
+                i += 1
+        return lt, gt
+
+def testcase1():
     array = [79, 82, 23, 50, 17, 53, 37, 89, 60, 14]
     
     print array    
@@ -161,5 +188,16 @@ if __name__ == '__main__':
     print "Insertion Sorting Result: ", sorting.insertion_sorting()
     print "Shell Sorting Result: ", sorting.shell_sorting()
     print "Quick Sorting Result: ", sorting.quicksort()
+    
+def testcase2():
+    array = [2,1,4,2,3,4,2,2,1,3,8,2,2]
+    print array    
+    sorting = SortingAlgorithm(array)
+    print "Quick Dijkstra Sorting Result: ", sorting.quicksort_dijsktra()
+                       
+#main function
+if __name__ == '__main__':
+    testcase2()
+    
     
     
