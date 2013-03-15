@@ -17,7 +17,7 @@ def select(array, low, high, k):
     mid = partition(array, low, high)
     index = high - k + 1
     if mid == index:
-        return array[mid]
+        return array[mid], mid
     elif mid < index:
         return select(array, mid+1, high, k)
     else:
@@ -40,5 +40,7 @@ def partition(array, low, high):
 if __name__ == '__main__':
     array = [79, 82, 23, 50, 17, 53, 37, 89, 60, 14]
     print array
-    for i in range(1,len(array)+1)[::-1]:
-        print i,'th num:', selection(array, i);
+    for i in range(1,len(array)+1):
+        value, index = selection(array, i);
+        print i,'th num:', value
+        print 'top ', i, ' num: ', array[index:len(array):1]
