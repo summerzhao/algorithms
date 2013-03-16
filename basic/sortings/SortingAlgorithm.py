@@ -4,6 +4,7 @@ Created on 2013-1-14
 @author: stefanie
 '''
 import copy
+import random
 
 class SortingAlgorithm(object):
     
@@ -109,9 +110,12 @@ class SortingAlgorithm(object):
         return array
     
     def quick_sort(self, array, low, high):
+        self.shuffle_sub(array, low, high)
+        print array
         if low >= high:
             return
-        mid = self.partition_2(array, low, high)
+        mid = self.partition(array, low, high)
+        print array
         self.quick_sort(array, low, mid -1)
         self.quick_sort(array, mid + 1, high)
         
@@ -184,6 +188,14 @@ class SortingAlgorithm(object):
             else:
                 i += 1
         return lt, gt
+    
+    def shuffle(self, array):
+        self.shuffle(array, 0, len(array) - 1)
+    
+    def shuffle_sub(self, array, low, high):
+        for i in range(low, high + 1):
+            r = int(random.uniform(low, i))
+            array[i], array[r] = array[r], array[i]
 
 def testcase1():
     array = [79, 82, 23, 50, 17, 53, 37, 89, 60, 14]
@@ -204,10 +216,24 @@ def testcase2():
     print array    
     sorting = SortingAlgorithm(array)
     print "Quick Dijkstra Sorting Result: ", sorting.quicksort_dijsktra()
-                       
+
+def testcase3():
+    array = [57, 67, 73, 57, 85, 82, 50, 57, 49, 20]
+    print array
+    sorting = SortingAlgorithm(array)
+    print "Quick Sort Result: ", sorting.quicksort_dijsktra();
+    
+def testShuffle():
+    array = [57, 67, 73, 57, 85, 82, 50, 57, 49, 20]
+    print array
+    sorting = SortingAlgorithm(array)
+    sorting.shuffle(sorting.array)
+    print sorting.array;
+    
+                     
 #main function
 if __name__ == '__main__':
-    testcase2()
+    testcase1()
     
     
     
