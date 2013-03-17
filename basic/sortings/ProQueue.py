@@ -88,10 +88,35 @@ def testcase1():
     print queue.pop() #76
     print queue.pop() #45
     print queue.pop() #5
+
+def testcase2():
+    array = [92, 78, 79, 68, 75, 31, 76, 45, 54, 58]
+    queue = ProQueue()
+    queue.init_by_array(array)
+    print queue.array
+    queue.push(17)
+    queue.push(40)
+    queue.push(22)
+    print queue.array
     
+def testcase3():
+    array = [99, 90, 31, 84, 70, 18, 24, 27, 63, 41]
+    queue = ProQueue()
+    queue.init_by_array(array)
+    print queue.array
+    print queue.pop()
+    print queue.pop()
+    print queue.pop()
+    print queue.array
+    
+def testcase4():
+    array = [94, 73, 13, 32, 75, 16, 20, 28, 80, 76]
+    queue = ProQueue()
+    queue.init_by_array(array)
+    print queue.array
         
 if __name__ == '__main__':
-    testcase1()       
+    testcase4()       
             
     
         
