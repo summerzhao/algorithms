@@ -5,6 +5,7 @@ Created on 2013-1-14
 '''
 import copy
 import random
+from ProQueue import *
 
 class SortingAlgorithm(object):
     
@@ -196,6 +197,18 @@ class SortingAlgorithm(object):
         for i in range(low, high + 1):
             r = int(random.uniform(low, i))
             array[i], array[r] = array[r], array[i]
+            
+    def heap_sorting(self):
+        queue = ProQueue()
+        queue.init_by_array(self.array)
+        print queue.array
+        
+        array = []
+        for i in range(0, queue.size()):
+            array.append(queue.pop())
+        return array
+        
+    
 
 def testcase1():
     array = [79, 82, 23, 50, 17, 53, 37, 89, 60, 14]
@@ -210,6 +223,7 @@ def testcase1():
     print "Insertion Sorting Result: ", sorting.insertion_sorting()
     print "Shell Sorting Result: ", sorting.shell_sorting()
     print "Quick Sorting Result: ", sorting.quicksort()
+    print "Heap Sorting Result: ", sorting.heap_sorting()
     
 def testcase2():
     array = [2,1,4,2,3,4,2,2,1,3,8,2,2]

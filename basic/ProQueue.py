@@ -18,6 +18,15 @@ class ProQueue(object):
         self.array.append(0)
         self.n = 0
         
+    def init_by_array(self, array):
+        self.n = len(array)
+        for i in range(0, self.n):
+            self.array.append(array[i])
+            
+        for i in range(1, self.n)[::-1]:
+            self._sink(i)
+        
+        
     def size(self):
         return self.n
     
