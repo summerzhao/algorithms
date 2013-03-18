@@ -93,7 +93,7 @@ class BinarySearchTree(object):
         elif node.key > k:
             return self._floor(node.left, k)
         else:
-            #if node need floor element in the right subtree, need return the parent of the subtree
+            # if node need floor element in the right subtree, need return the parent of the subtree
             floor = self._floor(node.right, k);
             if floor == None:
                 return node
@@ -180,7 +180,7 @@ class BinarySearchTree(object):
         return node
                 
     
-    def level_order_traversal(self): #breadth-first searching
+    def level_order_traversal(self):  # breadth-first searching
         array = []
         queue = deque([])
         queue.append(self.root)
@@ -193,7 +193,7 @@ class BinarySearchTree(object):
                 queue.append(item.right) 
         return array           
     
-    def inorder_traversal(self): # depth-first searching
+    def inorder_traversal(self):  # depth-first searching
         array = []
         self._inorder_traversal(self.root, array)
         return array
@@ -207,16 +207,16 @@ class BinarySearchTree(object):
     
 def testcase1():
     BST = BinarySearchTree()
-    #array = [91, 34, 18, 69, 59, 88, 58, 65, 38, 46]
+    # array = [91, 34, 18, 69, 59, 88, 58, 65, 38, 46]
     array = [33, 10, 63, 25, 45, 95, 12, 54, 64, 57, 80, 74]
     for node in array:
         BST.put(node, node)
         
     print BST.level_order_traversal()
     BST.hibbard_deletion(57)
-    print "57:",  BST.level_order_traversal()
+    print "57:", BST.level_order_traversal()
     BST.hibbard_deletion(64)
-    print "64:",BST.level_order_traversal()
+    print "64:", BST.level_order_traversal()
     BST.hibbard_deletion(63)
     print "63:", BST.level_order_traversal()
     print BST.inorder_traversal()

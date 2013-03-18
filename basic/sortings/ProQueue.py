@@ -34,24 +34,24 @@ class ProQueue(object):
      the element will swim up if its parent is smaller than it, exchange it with its parent
     '''
     def _swim(self, i):
-        while i/2 > 0:
-            if self.array[i] > self.array[i/2]:
-                self.array[i], self.array[i/2] = self.array[i/2], self.array[i]
-            i = i/2
+        while i / 2 > 0:
+            if self.array[i] > self.array[i / 2]:
+                self.array[i], self.array[i / 2] = self.array[i / 2], self.array[i]
+            i = i / 2
                 
     def _get_larger_child(self, i):
-        left = self.array[i*2]
-        if i*2 + 1 <= self.n:
-            right = self.array[i*2+1]
+        left = self.array[i * 2]
+        if i * 2 + 1 <= self.n:
+            right = self.array[i * 2 + 1]
             if right > left:
-                return i*2+1
-        return i*2
+                return i * 2 + 1
+        return i * 2
                 
     '''
     the element will sink down if its child is larger than it, exchange the larger child with it.
     '''
     def _sink(self, i):
-        while 2*i <= self.n:
+        while 2 * i <= self.n:
             max_child = self._get_larger_child(i)
             if self.array[max_child] > self.array[i]:
                 self.array[max_child], self.array[i] = self.array[i], self.array[max_child]
@@ -84,10 +84,10 @@ def testcase1():
     queue.push(45)
     queue.push(90)
     
-    print queue.pop() #90
-    print queue.pop() #76
-    print queue.pop() #45
-    print queue.pop() #5
+    print queue.pop()  # 90
+    print queue.pop()  # 76
+    print queue.pop()  # 45
+    print queue.pop()  # 5
 
 def testcase2():
     array = [92, 78, 79, 68, 75, 31, 76, 45, 54, 58]

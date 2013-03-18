@@ -5,11 +5,11 @@ Created on 2013-1-14
 '''
 import copy
 import random
-from ProQueue import ProQueue
+from basic.sortings.ProQueue import ProQueue
 
 class SortingAlgorithm(object):
     
-    def __init__(self, array = range(1,10)):
+    def __init__(self, array=range(1, 10)):
         '''
         Constructor
         '''
@@ -55,21 +55,21 @@ class SortingAlgorithm(object):
     def shell_sorting(self):
         array = copy.copy(self.array)
         h = 1
-        while h < len(array)/3:
-            h=3*h+1;
+        while h < len(array) / 3:
+            h = 3 * h + 1;
             
         while h >= 1:
             for i in range(h, len(array)):
-                for j in range(h, i+1)[::-h]:
-                    if(array[j] < array[j-h]):
-                        array[j], array[j-h] = array[j-h], array[j]
-            h = h/3;
-            #print array
+                for j in range(h, i + 1)[::-h]:
+                    if(array[j] < array[j - h]):
+                        array[j], array[j - h] = array[j - h], array[j]
+            h = h / 3;
+            # print array
         return array;
     
     def division_merge(self):
         array = copy.copy(self.array)
-        self._division(array, 0, len(array) -1)
+        self._division(array, 0, len(array) - 1)
         return array
     
     def _division(self, array, begin, end):
@@ -81,11 +81,11 @@ class SortingAlgorithm(object):
         
     def _merge(self, array, begin, index, end):
 #        print begin, index, end
-        result = range(0, end-begin+1)
+        result = range(0, end - begin + 1)
         i = begin; j = index + 1; k = 0
         while i <= index and j <= end:
             if array[i] < array[j]:
-                #print k, i
+                # print k, i
                 result[k] = array[i]
                 i += 1
             else :
@@ -98,13 +98,13 @@ class SortingAlgorithm(object):
         while j <= end:
             result[k] = array[j]
             k += 1; j += 1
-        #print array, result
+        # print array, result
         array[begin:end + 1] = result
-        #print array
+        # print array
         
     def quicksort(self):
         array = copy.copy(self.array)
-        self.quick_sort(array,0,len(array)-1)
+        self.quick_sort(array, 0, len(array) - 1)
         return array
     
     def quick_sort(self, array, low, high):
@@ -114,11 +114,11 @@ class SortingAlgorithm(object):
             return
         mid = self.partition(array, low, high)
         print array
-        self.quick_sort(array, low, mid -1)
+        self.quick_sort(array, low, mid - 1)
         self.quick_sort(array, mid + 1, high)
         
     def partition(self, array, low, high):
-        i = low+1 
+        i = low + 1 
         j = high
         key = array[low]
         while True:
@@ -135,7 +135,7 @@ class SortingAlgorithm(object):
     def partition_2(self, array, low, high):
         key = array[high]
         j = low
-        i = low -1
+        i = low - 1
         while j < high:
             if array[j] <= key:
                 i += 1
@@ -157,7 +157,7 @@ class SortingAlgorithm(object):
     '''
     def quicksort_dijsktra(self):
         array = copy.copy(self.array)
-        self.quick_sort_dijsktra(array,0,len(array)-1)
+        self.quick_sort_dijsktra(array, 0, len(array) - 1)
         return array
     
     
@@ -167,12 +167,12 @@ class SortingAlgorithm(object):
         lt, gt = self.paration_dijkstra(array, low, high)
         print array
         print lt, gt
-        self.quick_sort_dijsktra(array, low, lt -1)
+        self.quick_sort_dijsktra(array, low, lt - 1)
         self.quick_sort_dijsktra(array, gt + 1, high)
         
     def paration_dijkstra(self, array, low, high):
         lt = low
-        i = low+1
+        i = low + 1
         gt = high
         key = array[low]
         while i <= gt:
@@ -201,7 +201,7 @@ class SortingAlgorithm(object):
         print queue.array
         
         array = []
-        while(queue.size()>0):
+        while(queue.size() > 0):
             array.append(queue.pop())
         return array
         
@@ -223,7 +223,7 @@ def testcase1():
     print "Heap Sorting Result: ", sorting.heap_sorting()
     
 def testcase2():
-    array = [2,1,4,2,3,4,2,2,1,3,8,2,2]
+    array = [2, 1, 4, 2, 3, 4, 2, 2, 1, 3, 8, 2, 2]
     print array    
     sorting = SortingAlgorithm(array)
     print "Quick Dijkstra Sorting Result: ", sorting.quicksort_dijsktra()
@@ -242,7 +242,7 @@ def testShuffle():
     print sorting.array;
     
                      
-#main function
+# main function
 if __name__ == '__main__':
     testcase1()
     
