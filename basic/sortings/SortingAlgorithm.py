@@ -5,7 +5,7 @@ Created on 2013-1-14
 '''
 import copy
 import random
-from ProQueue import *
+from ProQueue import ProQueue
 
 class SortingAlgorithm(object):
     
@@ -66,9 +66,6 @@ class SortingAlgorithm(object):
             h = h/3;
             #print array
         return array;
-    
-    def quick_sorting(self):
-        array = copy.copy(self.array)
     
     def division_merge(self):
         array = copy.copy(self.array)
@@ -204,7 +201,7 @@ class SortingAlgorithm(object):
         print queue.array
         
         array = []
-        for i in range(0, queue.size()):
+        while(queue.size()>0):
             array.append(queue.pop())
         return array
         
