@@ -145,7 +145,7 @@ class BinarySearchTree(object):
         if node == None:
             return 0
         if node.key == k:
-            return node.count
+            return 1 + self.size(node.left)
         elif node.key > k:
             return self._rank(node.left, k)
         else:
@@ -184,8 +184,14 @@ class BinarySearchTree(object):
         array = []
         queue = deque([])
         queue.append(self.root)
+        queue.append("|")
         while(len(queue) > 0):
             item = queue.popleft();
+            if item == "|":
+                array.append("|");
+                if len(queue) > 0:
+                    queue.append("|")
+                continue
             array.append(item.value)
             if item.left != None:
                 queue.append(item.left)

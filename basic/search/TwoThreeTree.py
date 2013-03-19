@@ -70,6 +70,35 @@ class TwoThreeTree(BinarySearchTree):
 
     def __init__(self):
         self.root = None
+    
+    def search(self, key):
+        node = self.root
+        while node != None:
+            if node.type == "2":
+                if key > node.key:
+                    node = node.right
+                    continue
+                elif key < node.key:
+                    node = node.left
+                    continue
+                else:
+                    return node.value
+            else:
+                if key == node.larger_key:
+                    return node.larger_value
+                elif key == node.key:
+                    return node.value
+                elif key < node.key:
+                    node = node.left
+                    continue
+                elif key > node.larger_key:
+                    node = node.right
+                    continue
+                else:
+                    node = node.mid
+                    continue
+        return None
+                
         
     def put(self, value, key):
         self.root = self._put(self.root, key, value)
@@ -153,6 +182,9 @@ def testcase4():
     for char in array:
         tree.put(char, char)
         print tree.level_order_traversal()
+        
+    print tree.search("T")
+    print tree.search("A")
         
 if __name__ == '__main__':
     testcase4()        
