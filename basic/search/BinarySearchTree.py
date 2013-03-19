@@ -48,18 +48,22 @@ class BinarySearchTree(object):
         self.root = self._put(self.root, key, value)
         
     def _search(self, node, key):
-        print node.key
+        if node == None:
+            return None
         if node.key == key:
             return node.value
-        elif node.key > key and node.left != None:
+        elif node.key > key:
             return self._search(node.left, key)
-        elif node.key < key and node.right != None:
+        elif node.key < key:
             return self._search(node.right, key)
         else:
             return None
         
     def search(self, key):
         return self._search(self.root, key)
+    
+    def contains(self, key):
+        return self.search(key) != None
     
     def max(self):
         node = self.root
@@ -145,7 +149,7 @@ class BinarySearchTree(object):
         if node == None:
             return 0
         if node.key == k:
-            return 1 + self.size(node.left)
+            return self.size(node.left)
         elif node.key > k:
             return self._rank(node.left, k)
         else:
@@ -159,7 +163,7 @@ class BinarySearchTree(object):
         return node
     
     def hibbard_deletion(self, k):
-        return self._hibbard_deletion(self.root, k)
+        self.root = self._hibbard_deletion(self.root, k)
     
     def _hibbard_deletion(self, node, k):
         if node == None:
@@ -210,6 +214,32 @@ class BinarySearchTree(object):
         self._inorder_traversal(node.left, array)
         array.append(node.value)
         self._inorder_traversal(node.right, array)
+        
+    def range_size(self, low, high):
+        if self.contains(high):
+            return self.rank(high) - self.rank(low) + 1
+        else:
+            return self.rank(high) - self.rank(low)
+        
+    def range_node(self, low, high):
+        return self._range_node(self.root, low, high)
+        
+    def _range_node(self, node, low, high):
+        array = []
+        if node != None:
+            if node.key >= low and node.key <= high:
+                array.append(node.value)
+                if node.key > low:
+                    array += self._range_node(node.left, low, high)
+                if node.key < high:
+                    array += self._range_node(node.right, low, high)
+            elif node.key < low:
+                array += self._range_node(node.right, low, high)
+            else:
+                array += self._range_node(node.left, low, high)
+        return array
+        
+            
     
 def testcase1():
     BST = BinarySearchTree()
@@ -235,6 +265,16 @@ def testcase1():
     print BST.height()
     print BST.rank(57)
     
+def testcase2():
+    BST = BinarySearchTree()
+    BST.put(65, 65)
+    BST.put(87, 87)
+    
+    print BST.level_order_traversal()
+    
+    BST.hibbard_deletion(65)
+    print BST.level_order_traversal()
+    
         
 if __name__ == '__main__':
-    testcase1()  
+    testcase2()  

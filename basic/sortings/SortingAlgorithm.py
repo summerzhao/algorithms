@@ -198,11 +198,11 @@ class SortingAlgorithm(object):
     def heap_sorting(self):
         queue = ProQueue()
         queue.init_by_array(self.array)
-        print queue.array
+        #print queue.array
         
         array = []
         while(queue.size() > 0):
-            array.append(queue.pop())
+            array.append(queue.pop().value)
         return array
         
     

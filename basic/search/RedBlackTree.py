@@ -85,8 +85,8 @@ def testcase4():
     print "testcase4"
     tree = RedBlackTree()
     bi_tree = BinarySearchTree()
-    #array = random.sample(string.uppercase[:12], 10)
-    array = ['G', 'L', 'C', 'E', 'D', 'J', 'A', 'K', 'B', 'H']
+    array = random.sample(string.uppercase[:26], 10)
+    #array = ['E', 'D', 'L', 'G', 'F', 'H', 'A', 'I', 'B', 'C']
     # array = string.uppercase[:12][::-1]
     print array
     for char in array:
@@ -97,13 +97,21 @@ def testcase4():
         
     print tree.level_order_traversal()
     print bi_tree.level_order_traversal()
+    
+    print tree.inorder_traversal()
         
     #print "search T:", tree.search("T")
     #print "search A:", tree.search("A")
     
     for char in array:
         print char, tree.rank(char), bi_tree.rank(char)
+        
+    print tree.range_size("A", "G")
+    print bi_tree.range_size("D", "G")
+    
+    print bi_tree.range_node("D", "G")
     
         
 if __name__ == '__main__':
-    testcase4()        
+    testcase4()     
+    
