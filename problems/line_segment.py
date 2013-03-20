@@ -3,7 +3,10 @@ Created on Mar 19, 2013
 
 @author: stefaniezhao
 '''
+from __future__ import division
 import random
+from matplotlib.lines import Line2D
+import matplotlib.pyplot as plt
 from basic.sortings.ProQueue import QueueNode
 from basic.sortings.ProQueue import ProQueue
 from basic.search.BinarySearchTree import BinarySearchTree
@@ -102,8 +105,55 @@ def find_cross(h_lines, v_lines):
                     tree.hibbard_deletion(node)
         else:
             return points
+N = 50      
+def convert(lines):
+    converted_lines = []
+    for line in lines:
+        converted_lines.append(((line[0][0]/N, line[0][1]/N), (line[1][0]/N, line[1][1]/N)))
+    return converted_lines
 
-if __name__ == '__main__':
+
+def show_result(h_lines, v_lines, points):
+    fig = plt.figure(figsize=(8,4))
+    ax = fig.add_axes([0.0, 0.0, 1, 1])
+    points = [[node[0]/N, node[1]/N] for node in points]
+    print points
+    plt.plot(*zip(*points), marker='o', color='r', ls='')
+    
+    #h_lines = convert(h_lines)
+    #v_lines = convert(v_lines)
+    
+    #print h_lines;
+    #print v_lines;
+    
+    lines = []
+    for line in h_lines:
+        #lines.append(Line2D(line[0], line[1], transform=fig.transFigure, figure=fig, color="r"))
+        y_cor = line[0][1]/N
+        start = line[0][0]/N
+        end = line[1][0]/N
+        if start < end:
+            start, end = end, start             
+        plt.axhline(y=y_cor, xmin=end, xmax=start, color='b')
+        
+        
+    for line in v_lines:
+        x_cor = line[0][0]/N
+        print x_cor
+        start = line[0][1]/N
+        end = line[1][1]/N
+        if start < end:
+            start, end = end, start
+        print x_cor, end, start             
+        plt.axvline(x=x_cor, ymin=end, ymax=start, color='b')
+        #lines.append(Line2D(line[0], line[1], transform=fig.transFigure, figure=fig, color="r"))
+        
+    
+        
+    #ax.lines.extend(lines)
+    plt.show()
+
+def testcase():
     h_lines, v_lines = generateLines(10)
     #h_lines = [((9, 6), (2, 6)), ((3, 2), (9, 2)), ((8, 3), (9, 3)), ((6, 7), (9, 7)), ((4, 9), (3, 9)), ((4, 5), (8, 5)), ((9, 4), (4, 4)), ((2, 8), (4, 8)), ((8, 1), (2, 1)), ((1, 1), (4, 1))]
     #v_lines = [((1, 7), (1, 0)), ((1, 2), (1, 6)), ((6, 9), (6, 3)), ((0, 6), (0, 6)), ((7, 3), (7, 0)), ((1, 4), (1, 9)), ((7, 6), (7, 0)), ((5, 1), (5, 1)), ((5, 3), (5, 7)), ((9, 0), (9, 8))]
@@ -112,3 +162,10 @@ if __name__ == '__main__':
     points = find_cross(h_lines, v_lines)
     print len(points)
     print points
+    
+    show_result(h_lines, v_lines, points)
+    
+
+testcase()
+#if __name__ == '__main__':
+    
