@@ -11,8 +11,9 @@ from basic.sortings.ProQueue import QueueNode
 from basic.sortings.ProQueue import ProQueue
 from basic.search.BinarySearchTree import BinarySearchTree
 
+N = 90
 def get_random_int():
-    return int(random.uniform(0, 50))
+    return int(random.uniform(1, N))
 
 def generateLines(N):
     h_lines = []
@@ -63,49 +64,49 @@ def find_cross(h_lines, v_lines):
     while True:
         v_item = v_queue.pop()
         if v_item != None:
-            #print "scan", v_item.key
+            print "scan", v_item.key
             delete_items = []
             h_item = h_queue.max()
             while h_item != None and h_item.key >= v_item.key:
                 h_item = h_queue.pop()
                 if type(h_item.value) != type(0): #start node
                     if not tree.contains(h_item.value[0]):
-                        #print "insert", h_item.value[0], h_item.value[1]
+                        print "insert", h_item.value[0], h_item.value[1]
                         tree.put(h_item.value[0], h_item.value[1])
                     else: #overlapping start node
                         end = tree.search(h_item.value[0])
-                        #print "overlapping start", h_item.value[0]
+                        print "overlapping start", h_item.value[0]
                         if end > h_item.value[1]:
-                            #print "update", h_item.value[0], h_item.value[1]
+                            print "update", h_item.value[0], h_item.value[1]
                             tree.put(h_item.value[0], h_item.value[1]) #update the larger end
-                        #else:
-                            #print "drop inner section ", h_item.value[1], " within ", end
+                        else:
+                            print "drop inner section ", h_item.value[1], " within ", end
                 else: #end node
                     end = tree.search(h_item.value)
                     assert(end <= h_item.key)
                     if end == h_item.key: #if it's the larger end, remove the y 
-                        #print "catch the end", end
+                        print "catch the end", end
                         if h_item.key > v_item.key:
                             tree.hibbard_deletion(h_item.value)
-                            #print "remove", h_item.value, "scan", h_item.key
+                            print "remove", h_item.value, "scan", h_item.key
                         else :
                             delete_items.append(h_item.value)
                 h_item = h_queue.max()
             assert v_item.value[1] >= v_item.value[0]
             nodes = tree.range_node(v_item.value[0], v_item.value[1])
-            #print "find node in range (", v_item.value[0], v_item.value[1], "):", nodes
+            print "find node in range (", v_item.value[0], v_item.value[1], "):", nodes
             for node in nodes:
                 points.append((v_item.key, node[0]))
-            #print "points", points
-            #print "tree", tree.level_order_traversal()
-            #print "remove", delete_items
+            print "points", points
+            print "tree", tree.level_order_traversal()
+            print "remove", delete_items
             v_item_next = h_queue.max()
             if v_item_next != None and v_item_next.key < v_item.key: #remove the y when v goes smaller
                 for node in delete_items:
                     tree.hibbard_deletion(node)
         else:
             return points
-N = 50      
+     
 def convert(lines):
     converted_lines = []
     for line in lines:
@@ -116,45 +117,40 @@ def convert(lines):
 def show_result(h_lines, v_lines, points):
     fig = plt.figure(figsize=(8,4))
     ax = fig.add_axes([0.0, 0.0, 1, 1])
-    points = [[node[0]/N, node[1]/N] for node in points]
-    print points
-    plt.plot(*zip(*points), marker='o', color='r', ls='')
+    
     
     #h_lines = convert(h_lines)
     #v_lines = convert(v_lines)
     
     #print h_lines;
     #print v_lines;
-    
     lines = []
+    print "h_lines"
     for line in h_lines:
-        #lines.append(Line2D(line[0], line[1], transform=fig.transFigure, figure=fig, color="r"))
-        y_cor = line[0][1]/N
-        start = line[0][0]/N
-        end = line[1][0]/N
-        if start < end:
-            start, end = end, start             
-        plt.axhline(y=y_cor, xmin=end, xmax=start, color='b')
+        plt.plot([line[0][0]/N,line[1][0]/N], [line[0][1]/N, line[1][1]/N], color='b')
         
+    print "v_lines"   
+    for line in v_lines:           
         
-    for line in v_lines:
-        x_cor = line[0][0]/N
-        print x_cor
-        start = line[0][1]/N
-        end = line[1][1]/N
-        if start < end:
-            start, end = end, start
-        print x_cor, end, start             
-        plt.axvline(x=x_cor, ymin=end, ymax=start, color='b')
+        plt.plot([line[0][0]/N,line[1][0]/N], [line[0][1]/N, line[1][1]/N], color='b')
         #lines.append(Line2D(line[0], line[1], transform=fig.transFigure, figure=fig, color="r"))
         
+    x_cors = [node[0]/N for node in points]
+    print x_cors
+    y_cors = [node[1]/N for node in points]
+    print y_cors
+    #print points
+    plt.plot(x_cors, y_cors, marker='.', color='r', ls='')
     
-        
+    plt.subplots_adjust()
     #ax.lines.extend(lines)
     plt.show()
 
 def testcase():
-    h_lines, v_lines = generateLines(10)
+    h_lines, v_lines = generateLines(20)
+    #h_lines = [((0, 4), (1, 4)), ((2, 5), (5, 5)), ((5, 4), (6, 4)), ((3, 8), (1, 8)), ((3, 7), (8, 7)), ((6, 9), (0, 9)), ((7, 2), (2, 2)), ((6, 7), (6, 7)), ((2, 8), (6, 8)), ((7, 7), (0, 7))]
+    #v_lines = [((2, 4), (2, 3)), ((3, 6), (3, 6)), ((6, 6), (6, 8)), ((6, 9), (6, 0)), ((2, 4), (2, 5)), ((1, 8), (1, 8)), ((8, 5), (8, 0)), ((3, 7), (3, 9)), ((3, 1), (3, 9)), ((8, 0), (8, 6))]
+
     #h_lines = [((9, 6), (2, 6)), ((3, 2), (9, 2)), ((8, 3), (9, 3)), ((6, 7), (9, 7)), ((4, 9), (3, 9)), ((4, 5), (8, 5)), ((9, 4), (4, 4)), ((2, 8), (4, 8)), ((8, 1), (2, 1)), ((1, 1), (4, 1))]
     #v_lines = [((1, 7), (1, 0)), ((1, 2), (1, 6)), ((6, 9), (6, 3)), ((0, 6), (0, 6)), ((7, 3), (7, 0)), ((1, 4), (1, 9)), ((7, 6), (7, 0)), ((5, 1), (5, 1)), ((5, 3), (5, 7)), ((9, 0), (9, 8))]
     print h_lines
