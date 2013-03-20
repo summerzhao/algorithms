@@ -191,12 +191,14 @@ class BinarySearchTree(object):
         queue.append("|")
         while(len(queue) > 0):
             item = queue.popleft();
+            if item == None:
+                break
             if item == "|":
                 array.append("|");
                 if len(queue) > 0:
                     queue.append("|")
                 continue
-            array.append(item.value)
+            array.append((item.key, item.value))
             if item.left != None:
                 queue.append(item.left)
             if item.right != None:
@@ -212,7 +214,7 @@ class BinarySearchTree(object):
         if node == None: 
             return
         self._inorder_traversal(node.left, array)
-        array.append(node.value)
+        array.append((node.key, node.value))
         self._inorder_traversal(node.right, array)
         
     def range_size(self, low, high):
@@ -228,7 +230,7 @@ class BinarySearchTree(object):
         array = []
         if node != None:
             if node.key >= low and node.key <= high:
-                array.append(node.value)
+                array.append((node.key, node.value))
                 if node.key > low:
                     array += self._range_node(node.left, low, high)
                 if node.key < high:

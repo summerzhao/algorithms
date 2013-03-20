@@ -37,7 +37,12 @@ class ProQueue(object):
             
         for i in range(1, self.n)[::-1]:
             self._sink(i)
-        
+            
+    def get_keys(self):
+        array = []
+        for i in range(1, self.size()+1):
+            array.append(self.array[i].key)
+        return array
         
     def size(self):
         return self.n
@@ -103,6 +108,13 @@ def testcase1():
     print queue.pop().value  # 45
     print queue.pop().value  # 5
 
+def testcase2():
+    queue = ProQueue()
+    array = [9, 9, 9, 8, 8, 9, 9, 6, 4, 3, 3, 4, 8, 4, 4, 2, 2, 2, 4]
+    for node in array:
+        queue.push(QueueNode(node))
+        
+    print queue.get_keys()
         
 if __name__ == '__main__':
     testcase1()       
