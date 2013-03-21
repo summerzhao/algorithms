@@ -163,7 +163,7 @@ class TwoThreeTree(BinarySearchTree):
             if item.type == "2":
                 array.append(item.value)
             else:
-                array.append("(" + item.value + "," + item.larger_value + ")")
+                array.append("(" + str(item.value) + "," + str(item.larger_value) + ")")
             if item.left != None:
                 queue.append(item.left)
             if item.type == "3" and item.mid != None:
@@ -185,6 +185,13 @@ def testcase4():
         
     print tree.search("T")
     print tree.search("A")
+    
+def testcase1():
+    tree = TwoThreeTree()
+    array = [45, 21,32, 67, 19, 25, 40, 59, 86,98]
+    for value in array:
+        tree.put(value, value)
+    print tree.level_order_traversal()
         
 if __name__ == '__main__':
-    testcase4()        
+    testcase1()        
