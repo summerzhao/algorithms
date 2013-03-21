@@ -4,8 +4,27 @@ Created on Mar 19, 2013
 @author: stefaniezhao
 '''
 from __future__ import division
+'''
+    Problem: give a set of v_lines and h_lines, find the cross point of these lines.
+    Solution:
+        1. put all the x-coordination of all the lines in a Priority Queue
+        2. scan the queue, create a BinarySearchTree for all the y_coordination,
+           if the node is 
+            a. the start of a h_line, put it in the tree
+            b. the end of a h_line, delete it in the tree
+            c. the x_coor of a v_line, find the nodes in the tree in range of the y_coordination of the v_line
+        The sweep-line algorithm takes time proportional to NlogN+R to find all R intersections among N orthogonal line segment
+        
+    Extention to make random case:
+        case1: the end point of v_line and h_line are same
+            to keep the cross point, scan the h_line first, and if need remove, put the end in an array, 
+            remove it after scan all the cross point in the v_line with same y_coordination.
+        case2. if the h_line have overlapping:
+            put the end of the line in the queue, and check/update the end if have overlapping.
+'''
+
+
 import random
-from matplotlib.lines import Line2D
 import matplotlib.pyplot as plt
 from basic.sortings.ProQueue import QueueNode
 from basic.sortings.ProQueue import ProQueue
