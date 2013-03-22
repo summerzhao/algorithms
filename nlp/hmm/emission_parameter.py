@@ -3,6 +3,7 @@
 __author__ = "Stefanie Zhao <zhaochenting@gmail.com>"
 __date__ = "$Mar 11, 2013"
 
+from collections import defaultdict
 from count_freqs import *
 import re
 
@@ -113,6 +114,7 @@ def viterbi(counter, input, output):
 			# print word
 			if is_rare_word(counter, word, tags):
 				word = get_rare_class(word)
+				#word = "_RARE_"
 			for u in get_possible_tags(k - 1, tags, begin):
 				for v in get_possible_tags(k, tags, begin):
 					e_prob = counter.predict_emssiion_counts[(word, v)]
@@ -121,15 +123,19 @@ def viterbi(counter, input, output):
 						max_pi = -1;
 						max_tag = ""
 						for w in get_possible_tags(k - 2, tags, begin):
-							pi_w = pi[(k - 1, w, u)] * counter.trigram_prob[(w, u, v)] * e_prob
+							if k % 80 == 0: #fix to avoid out of float
+								pi_w = pi[(k - 1, w, u)] * counter.trigram_prob[(w, u, v)] * e_prob * 1.0e100
+							else:
+								pi_w = pi[(k - 1, w, u)] * counter.trigram_prob[(w, u, v)] * e_prob
+							#print word, pi_w, w, u, v
 							if pi_w > max_pi:
 								max_tag = w
 								max_pi = pi_w
 						pi[(k, u, v)] = max_pi
-						# if max_tag == "":
-							# print "maxtag == null", k, u, v
+						#if max_tag == "":
+							#print "maxtag == null", k, u, v
 						pi_tag[(k, u, v)] = max_tag
-						# print k, word, u, v, w, max_pi
+						#print k, word, max_tag, u, v, max_pi
 					else:
 						pi[(k, u, v)] = 0
 						pi_tag[(k, u, v)] = "-"
@@ -138,12 +144,13 @@ def viterbi(counter, input, output):
 			
 		max_tags = []
 			
-		max_pi = -1
+		max_pi = 0
 		max_u = ""
 		max_v = ""
 		for u in get_possible_tags(n - 1, tags, begin):
 			for v in get_possible_tags(n, tags, begin):
 				pi_u_v = pi[(n, u, v)] * counter.trigram_prob[(u, v, "STOP")]
+				#print n, u, v, pi[(n, u, v)], counter.trigram_prob[(u, v, "STOP")], pi_u_v
 				if pi_u_v > max_pi:
 					max_pi = pi_u_v
 					max_u = u
@@ -160,7 +167,7 @@ def viterbi(counter, input, output):
 			# print max_y, pi[(k,max_tags[l-1],max_tags[l-2])]
 			max_tags.append(max_y)
 			
-		
+		#print max_tags
 		for k in range(0, n)[::-1]:
 			tag = max_tags[k]
 			word = sent[n - k - 1][1]
