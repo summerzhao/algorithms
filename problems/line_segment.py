@@ -30,7 +30,7 @@ from basic.sortings.ProQueue import QueueNode
 from basic.sortings.ProQueue import ProQueue
 from basic.search.BinarySearchTree import BinarySearchTree
 
-N = 90
+N = 20
 def get_random_int():
     return int(random.uniform(1, N))
 
@@ -180,7 +180,15 @@ def testcase():
     
     show_result(h_lines, v_lines, points)
     
-
-testcase()
-#if __name__ == '__main__':
+def testcase1():
+    v_lines = [((4,16), (4,19)), ((13,6),(13,12))]
+    h_lines = [((3,13), (7,13)),((6,8),(17,8)),((0,2),(15,2)),((2,10),(16,10)),((5,11),(9,11)),((12,18),(18,18))]
+    points = find_cross(h_lines, v_lines)
+    print len(points)
+    print points
+    
+    show_result(h_lines, v_lines, points)
+    
+if __name__ == '__main__':
+    testcase1()
     

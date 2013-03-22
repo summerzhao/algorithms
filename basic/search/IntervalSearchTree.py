@@ -55,10 +55,15 @@ class IntervalSearchTree(BinarySearchTree):
         #return self._search(lo, hi, self.root)
         node = self.root
         while node != None:
+            print node.key, node.value
             if lo > node.key and hi < node.value:
                 return node.to_print()
             elif node.left == None or node.left.max < lo:
-                node = node.right
+                #print node.key, lo
+                if node.key > lo:
+                    return None
+                else:
+                    node = node.right
             else:
                 node = node.left
         return None
@@ -92,9 +97,17 @@ def testcase():
     print tree.level_order_traversal()
     for interval in intervals:
         print "search: ", interval, " found: ", tree.search(interval[0], interval[1])
-        
+
+def testcase1():
+    intervals = [(16,20),(34,39),(28,35),(31,40),(32,37),(13,17),(6,21),(2,22)]
+    tree = IntervalSearchTree()
+    for interval in intervals:
+        tree.put(interval[0], interval[1])
+    print tree.level_order_traversal()
+    print tree.search(25,27)
+       
 if __name__ == '__main__':
-    testcase()      
+    testcase1()      
             
     
         
