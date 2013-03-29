@@ -115,9 +115,20 @@ def testcase2():
         queue.push(QueueNode(node))
         
     print queue.get_keys()
+    
+def testcase3():
+    queue = ProQueue()
+    queue.array = [0,QueueNode(99),QueueNode(96),QueueNode(35),QueueNode(64),QueueNode(60),QueueNode(18),QueueNode(19),QueueNode(51),QueueNode(42),QueueNode(10)]
+    queue.n = 10
+    
+    print queue.pop().key
+    print queue.pop().key
+    print queue.pop().key
+    for i in range(1, queue.n+1):
+        print queue.array[i].key
         
 if __name__ == '__main__':
-    testcase1()       
+    testcase3()       
             
     
         

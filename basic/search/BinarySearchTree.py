@@ -277,6 +277,12 @@ def testcase2():
     BST.hibbard_deletion(65)
     print BST.level_order_traversal()
     
+def testcase3():
+    BST = BinarySearchTree()
+    array = [85, 10, 16, 35, 70, 18, 24, 34, 89, 47]
+    for node in array:
+        BST.put(node, node)
+    print BST.level_order_traversal()
         
 if __name__ == '__main__':
-    testcase2()  
+    testcase3()  

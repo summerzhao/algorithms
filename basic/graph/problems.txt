@@ -1,0 +1,33 @@
+Problems:
+	Path. Is there a path between s and t ?
+	Shortest path. What is the shortest path between s and t ?
+	
+	Cycle. Is there a cycle in the graph?
+	Euler tour. Is there a cycle that uses each edge exactly once?
+	Hamilton tour. Is there a cycle that uses each vertex exactly once.
+	
+	Connectivity. Is there a way to connect all of the vertices?
+	MST. What is the best way to connect all of the vertices?
+	Biconnectivity. Is there a vertex whose removal disconnects the graph?
+	
+	Planarity. Can you draw the graph in the plane with no crossing edges
+	Graph isomorphism. Do two adjacency lists represent the same graph?
+	
+	Challenge. Which of these problems are easy? difficult? intractable?
+	
+Challanges:
+1. Is a graph bipartite:
+	simple DFS-based solution
+	mark the vertices by flag
+2. Find a cycle:
+	simple DFS-based solution
+3. Eluer tour: Is there a general cycle that uses each edge exactly once?
+	Yes iff connected and all vertices have even degree
+4. Find a cycle that visits every vertex exactly once?
+	Hamiltonian Cycle, classical NP-complete problem
+5. Are two graphs identical except for vertex names?
+	Graph isomorphism is longstanding open problem
+6. Layout a graph in the plane without crossing edges
+	linear-time DFS-based planarity algorithm discovered by Tarjan in 1970
+
+
