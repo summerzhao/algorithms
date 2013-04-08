@@ -105,11 +105,11 @@ class Counts:
 
 def main(parse_file):
   counter = Counts() 
-  #for l in open(parse_file):
-    #t = json.loads(l)
-    #counter.count(t)
+  for l in open(parse_file):
+    t = json.loads(l)
+    counter.count(t)
   #counter.show()
-  counter.load(open(parse_file))
+  #counter.load(open(parse_file))
   counter.estimate()
   counter.show()
 
