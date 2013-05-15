@@ -38,6 +38,7 @@ m = size(X, 1);
 % Randomly select 100 data points to display
 rand_indices = randperm(m);
 sel = X(rand_indices(1:100), :);
+sel_y = y(rand_indices(1:100), :);
 
 displayData(sel);
 
@@ -67,3 +68,8 @@ pred = predictOneVsAll(all_theta, X);
 
 fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
 
+sel_pred = predictOneVsAll(all_theta, sel);
+
+fprintf('\nSampling Set Accuracy: %f\n', mean(double(sel_pred == sel_y)) * 100);
+result = reshape(sel_pred,10,10)'
+correct= reshape(sel_y,10,10)'
