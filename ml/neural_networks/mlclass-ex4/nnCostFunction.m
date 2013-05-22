@@ -96,6 +96,13 @@ mu2 = mu3*Theta2(:,[2:end]).*sigmoidGradient(z2);
 Theta2_grad = (1/m) .* mu3' * a2;
 Theta1_grad = (1/m) .* mu2' * X;
 
+Theta1_RE = Theta1;
+Theta1_RE(:,1) = zeros(1,size(Theta1,1));
+Theta2_RE = Theta2;
+Theta2_RE(:,1) = zeros(1,size(Theta2,1));
+
+Theta1_grad = Theta1_grad + (lambda/m).*Theta1_RE;
+Theta2_grad = Theta2_grad + (lambda/m).*Theta2_RE;
 
 
 
