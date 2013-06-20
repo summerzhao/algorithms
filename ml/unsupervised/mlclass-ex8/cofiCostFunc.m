@@ -39,15 +39,31 @@ Theta_grad = zeros(size(Theta));
 %        Theta_grad - num_users x num_features matrix, containing the 
 %                     partial derivatives w.r.t. to each element of Theta
 %
-J = 0
+J = 0;
 pre = (X*Theta' - Y).*R;
 [m,n] = size(pre);
 for i = 1:m
 	for j = 1:n
 		J = J + pre(i,j)^2;
 	end
+	for k = 1:size(X)(2)
+		for j = 1:n
+			X_grad(i,k) = X_grad(i,k) + pre(i,j)*Theta(j,k);
+		end
+		X_grad(i,k) = X_grad(i,k) + lambda*X(i,k);
+	end
 end
-J = J /2;
+for j = 1:n
+	for k = 1:size(Theta)(2)
+		for i = 1:m
+			Theta_grad(j,k) = Theta_grad(j,k) + pre(i,j)*X(i,k);
+		end
+		Theta_grad(j,k) = Theta_grad(j,k) + lambda*Theta(j,k);
+	end
+end
+J = J /2 + lambda*sum(sum(Theta .* Theta))/2 + lambda*sum(sum(X .* X))/2;
+
+
 
 
 

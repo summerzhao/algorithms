@@ -35,9 +35,9 @@ fprintf('Average rating for movie 1 (Toy Story): %f / 5\n\n', ...
         mean(Y(1, R(1, :))));
 
 %  We can "visualize" the ratings matrix by plotting it with imagesc
-imagesc(Y);
-ylabel('Movies');
-xlabel('Users');
+%imagesc(Y);
+%ylabel('Movies');
+%xlabel('Users');
 
 fprintf('\nProgram paused. Press enter to continue.\n');
 pause;
